@@ -1,0 +1,45 @@
+# ───────────────────────────────────────────────
+#  EZYCOM BACKEND — .gitignore
+#  PHP + MySQL (XAMPP)
+# ───────────────────────────────────────────────
+
+
+# ── Dépendances Composer ──────────────────────
+vendor/
+composer.lock
+
+config/database.php
+database.php
+.env
+.env.local
+.env.production
+
+
+# ── Logs Apache / PHP ─────────────────────────
+*.log
+error_log
+php_errors.log
+logs/
+
+
+# ── Fichiers uploadés par les utilisateurs ───
+# Les photos de produits ne doivent pas être sur Git
+uploads/
+
+
+# ── Système d'exploitation ───────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+
+# ── Éditeurs de code ─────────────────────────
+.vscode/
+.idea/
+*.suo
+
+
+# ── Fichiers temporaires ──────────────────────
+*.tmp
+*.temp
+*.bak
