@@ -15,7 +15,6 @@ if (!$id_produit) respond(400, 'Veuillez sélectionner un produit.');
 if ($qte <= 0)    respond(400, 'La quantité doit être supérieure à 0.');
 if (!$raison)     respond(400, 'Le motif de sortie est obligatoire.');
 
-// Vérifie que le produit appartient au commerçant
 $stmt = $db->prepare("SELECT id, qte FROM produit WHERE id = ? AND id_commercant = ? LIMIT 1");
 $stmt->execute([$id_produit, $commercant['id']]);
 $produit = $stmt->fetch();
@@ -23,11 +22,9 @@ $produit = $stmt->fetch();
 if (!$produit) respond(404, 'Produit introuvable.');
 if ($produit['qte'] < $qte) respond(400, 'Stock insuffisant. Quantité disponible : ' . $produit['qte'] . '.');
 
-// Décrémente le stock
 $db->prepare("UPDATE produit SET qte = qte - ? WHERE id = ?")
    ->execute([$qte, $id_produit]);
 
-// Enregistre le mouvement — motif '0' = sortie
 $db->prepare("
     INSERT INTO mouvement_stock (id_commercant, id_produit, date, motif, raison, qte)
     VALUES (?, ?, NOW(), '0', ?, ?)
