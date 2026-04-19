@@ -30,6 +30,9 @@ $routes = [
     'DELETE /api/products/{id}'               => 'api/products/products-delete.php',
     'GET    /api/products/{id}/historique'    => 'api/products/products-historique.php',
 
+    'POST   /api/products/{id}/image'  => 'api/products/upload-image.php',
+    'DELETE /api/products/{id}/image'  => 'api/products/delete-image.php',
+
     'POST   /api/stock/sortie'            => 'api/stock/stock-out.php',
     'POST   /api/stock/entree'            => 'api/stock/stock-in.php',
 
