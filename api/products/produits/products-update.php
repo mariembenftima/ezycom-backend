@@ -1,8 +1,8 @@
 <?php
-require_once __DIR__ . '/../../middleware/auth.php';
-require_once __DIR__ . '/../../config/database.php';
-require_once __DIR__ . '/../../helpers/response.php';
-
+require_once dirname(__DIR__, 3) . '/middleware/auth.php';
+require_once dirname(__DIR__, 3) . '/config/database.php';
+require_once dirname(__DIR__, 3) . '/helpers/response.php';
+ 
 $commercant = requireAuth();
 $db  = getDB();
 $id  = intval($_REQUEST['_segments'][0] ?? 0);

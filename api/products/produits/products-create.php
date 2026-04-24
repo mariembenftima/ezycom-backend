@@ -1,27 +1,29 @@
 <?php
-require_once __DIR__ . '/../../middleware/auth.php';
-require_once __DIR__ . '/../../config/database.php';
-require_once __DIR__ . '/../../helpers/response.php';
+require_once dirname(__DIR__, 3) . '/middleware/auth.php';
+require_once dirname(__DIR__, 3) . '/config/database.php';
+require_once dirname(__DIR__, 3) . '/helpers/response.php';
 
 $commercant = requireAuth();
 $db = getDB();
 
-$nom        = trim($_POST['nom']        ?? '');
-$ref        = trim($_POST['ref']        ?? '');
-$marque     = trim($_POST['marque']     ?? '');
-$modele     = trim($_POST['modele']     ?? '');
-$couleur    = trim($_POST['couleur']    ?? '');
-$description = trim($_POST['description'] ?? '');
-$prix       = trim($_POST['prix']       ?? '');
-$prix_achat = trim($_POST['prix_achat'] ?? '');
-$qte        = intval($_POST['qte']      ?? 0);
-$seuil      = intval($_POST['seuil']    ?? 1);
-$id_cat     = intval($_POST['id_cat']   ?? 0);
-$id_sous_cat = intval($_POST['id_sous_cat'] ?? 0);
+// Lire JSON ou form-data
+$body        = json_decode(file_get_contents('php://input'), true) ?? [];
 
-if (!$nom)   respond(400, "Le champ 'nom' est obligatoire.");
-if (!$prix)  respond(400, "Le champ 'prix' est obligatoire.");
-if (!$id_cat) respond(400, "Veuillez sélectionner une catégorie.");
+$nom         = trim($body['nom']          ?? $_POST['nom']          ?? '');
+$ref         = trim($body['ref']          ?? $_POST['ref']          ?? '');
+$marque      = trim($body['marque']       ?? $_POST['marque']       ?? '');
+$modele      = trim($body['modele']       ?? $_POST['modele']       ?? '');
+$couleur     = trim($body['couleur']      ?? $_POST['couleur']      ?? '');
+$description = trim($body['description']  ?? $_POST['description']  ?? '');
+$prix        = trim((string)($body['prix']       ?? $_POST['prix']       ?? ''));
+$prix_achat  = trim((string)($body['prix_achat'] ?? $_POST['prix_achat'] ?? ''));
+$qte         = intval($body['qte']        ?? $_POST['qte']          ?? 0);
+$seuil       = intval($body['seuil']      ?? $_POST['seuil']        ?? 1);
+$id_cat      = intval($body['id_cat']     ?? $_POST['id_cat']       ?? 0);
+$id_sous_cat = intval($body['id_sous_cat'] ?? $_POST['id_sous_cat'] ?? 0);
+
+if (!$nom)  respond(400, "Le champ 'nom' est obligatoire.");
+if (!$prix) respond(400, "Le champ 'prix' est obligatoire.");
 
 $art_id = bin2hex(random_bytes(16));
 
