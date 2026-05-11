@@ -10,59 +10,51 @@ preg_match('#(/api/.*)$#', $uri, $m);
 $path = rtrim($m[1] ?? '', '/');
 
 $routes = [
-    // ── Auth ──────────────────────────────────────────────────────────────────
-    'POST   /api/auth/register'           => 'api/auth/register.php',
-    'POST   /api/auth/login'              => 'api/auth/login.php',
-    'POST   /api/auth/logout'             => 'api/auth/logout.php',
-    'POST   /api/auth/forgot-password'    => 'api/auth/forgot-password.php',
-    'POST   /api/auth/verify-reset-code'  => 'api/auth/verify-reset-code.php',
-    'POST   /api/auth/reset-password'     => 'api/auth/reset-password.php',
+    'POST   /api/auth/register'          => 'api/auth/register.php',
+    'POST   /api/auth/login'             => 'api/auth/login.php',
+    'POST   /api/auth/logout'            => 'api/auth/logout.php',
+    'POST   /api/auth/forgot-password'   => 'api/auth/forgot-password.php',
+    'POST   /api/auth/verify-reset-code' => 'api/auth/verify-reset-code.php',
+    'POST   /api/auth/reset-password'    => 'api/auth/reset-password.php',
 
-    // ── Catégories ────────────────────────────────────────────────────────────
-    'GET    /api/categories'              => 'api/categories/categories-list.php',
-    'POST   /api/categories'              => 'api/categories/categories-create.php',
-    'PUT    /api/categories/{id}'         => 'api/categories/categories-update.php',
-    'DELETE /api/categories/{id}'         => 'api/categories/categories-delete.php',
+    'GET    /api/categories'             => 'api/categories/categories-list.php',
+    'POST   /api/categories'             => 'api/categories/categories-create.php',
+    'PUT    /api/categories/{id}'        => 'api/categories/categories-update.php',
+    'DELETE /api/categories/{id}'        => 'api/categories/categories-delete.php',
 
-    // ── Produits — ORDRE CRITIQUE : spécifiques avant génériques ─────────────
+    'GET    /api/products'               => 'api/products/produits/products-list.php',
+    'POST   /api/products'               => 'api/products/produits/products-create.php',
 
-    // 1. Routes sans {id}
-    'GET    /api/products'                => 'api/products/produits/products-list.php',
-    'POST   /api/products'                => 'api/products/produits/products-create.php',
+    'GET    /api/products/attributs'     => 'api/products/variantes/list-attributs.php',
 
-    // 2. Route statique /attributs — AVANT tout {id}
-    'GET    /api/products/attributs'      => 'api/products/variantes/list-attributs.php',
+    'GET    /api/products/{id}/historique'       => 'api/products/produits/products-historique.php',
+    'POST   /api/products/{id}/image'            => 'api/products/images/upload-image.php',
+    'DELETE /api/products/{id}/image'            => 'api/products/images/delete-image.php',
+    'GET    /api/products/{id}/variations'       => 'api/products/variantes/list-variations.php',
+    'POST   /api/products/{id}/variation'        => 'api/products/variantes/create-variation.php',
+    'DELETE /api/products/{id}/variation/{vid}'  => 'api/products/variantes/delete-variation.php',
 
-    // 3. Routes {id}/quelquechose — AVANT la route {id} seule
-    'GET    /api/products/{id}/historique'        => 'api/products/produits/products-historique.php',
-    'POST   /api/products/{id}/image'             => 'api/products/images/upload-image.php',
-    'DELETE /api/products/{id}/image'             => 'api/products/images/delete-image.php',
-    'GET    /api/products/{id}/variations'        => 'api/products/variantes/list-variations.php',
-    'POST   /api/products/{id}/variation'         => 'api/products/variantes/create-variation.php',
-    'DELETE /api/products/{id}/variation/{vid}'   => 'api/products/variantes/delete-variation.php',
+    'GET    /api/products/{id}'          => 'api/products/produits/products-get.php',
+    'PUT    /api/products/{id}'          => 'api/products/produits/products-update.php',
+    'POST   /api/products/{id}'          => 'api/products/produits/products-update.php',
+    'DELETE /api/products/{id}'          => 'api/products/produits/products-delete.php',
 
-    // 4. Route {id} seule — EN DERNIER pour les produits
-    'GET    /api/products/{id}'           => 'api/products/produits/products-get.php',
-    'PUT    /api/products/{id}'           => 'api/products/produits/products-update.php',
-    'POST   /api/products/{id}'           => 'api/products/produits/products-update.php',
-    'DELETE /api/products/{id}'           => 'api/products/produits/products-delete.php',
+    'POST   /api/stock/sortie'           => 'api/stock/stock-out.php',
+    'POST   /api/stock/entree'           => 'api/stock/stock-in.php',
 
-    // ── Stock ─────────────────────────────────────────────────────────────────
-    'POST   /api/stock/sortie'            => 'api/stock/stock-out.php',
-    'POST   /api/stock/entree'            => 'api/stock/stock-in.php',
+    'GET    /api/orders'                 => 'api/orders/orders-list.php',
+    'POST   /api/orders'                 => 'api/orders/orders-create.php',
+    'PUT    /api/orders/{id}/status'     => 'api/orders/update-status.php',
+    'GET    /api/orders/{id}'            => 'api/orders/orders-get.php',
 
-    // ── Commandes ─────────────────────────────────────────────────────────────
-    'GET    /api/orders'                  => 'api/orders/orders-list.php',
-    'POST   /api/orders'                  => 'api/orders/orders-create.php',
-    'PUT    /api/orders/{id}/status'      => 'api/orders/update-status.php',
-    'GET    /api/orders/{id}'             => 'api/orders/orders-get.php',
-    
+    'GET    /api/clients'                => 'api/clients/list.php',
 
-    
+    'GET    /api/statistiques'           => 'api/statistiques/index.php',
+    'GET    /api/parametres'             => 'api/parametres/get.php',
+    'PUT    /api/parametres'             => 'api/parametres/update.php',
 
-    // ── Divers ────────────────────────────────────────────────────────────────
-    'GET    /api/villes'                  => 'api/villes/list.php',
-    'GET    /api/packs'                   => 'api/packs/list.php',
+    'GET    /api/villes'                 => 'api/villes/list.php',
+    'GET    /api/packs'                  => 'api/packs/list.php',
 ];
 
 $matched = false;
